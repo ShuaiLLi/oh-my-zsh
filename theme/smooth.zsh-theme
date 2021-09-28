@@ -7,6 +7,7 @@
 # REF: http://zsh.sourceforge.net/Doc/Release/Functions.html
 preexec() {
     COMMAND_TIME_BEIGIN="$(current_time_millis)";
+    LAST_COMMAND_DURATION_INFO="";
 }
 
 
@@ -116,17 +117,20 @@ func calculate_command_execution_duration() {
     local duration=$(bc -l <<<"${time_end}-${COMMAND_TIME_BEIGIN}");
     # reset
     COMMAND_TIME_BEIGIN="-20200325"
-    duration_info="[execution duration: ${duration}s]"
+    local duration_info="[🔝⌛ ${duration}s]"
     local duration_info_color="$fg_no_bold[cyan]";
+    LAST_COMMAND_DURATION_INFO="${duration_info_color}${duration_info}${color_reset}"
+}
 
-    echo -e "\n";
-    echo -e "${duration_info_color}${duration_info}${color_reset}";
-    echo -e "";
+function last_command_duration_info() {
+    echo "${LAST_COMMAND_DURATION_INFO}"
 }
 
 
 # Init command status
 update_command_status true;
+
+duration_time=""
 
 # Set option
 setopt PROMPT_SUBST;
@@ -146,4 +150,4 @@ TRAPALRM() {
 
 
 # Prompt
-PROMPT='$(real_time) $(user_info) $(current_path) $(git_status)$(command_status) ';
+PROMPT='$(real_time)$(last_command_duration_info) $(user_info) $(current_path) $(git_status)$(command_status) ';
