@@ -127,6 +127,16 @@ function last_command_duration_info() {
 }
 
 
+function terminfo_line_flag() {
+    echo "%{$fg_bold[cyan]%}#%{$reset_color%}"
+}
+
+
+function command_line_flag() {
+    echo "%{$fg_bold[red]%}$ %{$reset_color%}"
+}
+
+
 # Init command status
 update_command_status true;
 
@@ -150,4 +160,7 @@ TRAPALRM() {
 
 
 # Prompt
-PROMPT='$(real_time)$(last_command_duration_info) $(user_info) $(current_path) $(git_status)$(command_status) ';
+PROMPT='
+$(terminfo_line_flag) \
+$(real_time)$(last_command_duration_info) $(user_info) $(current_path) $(git_status)$(command_status) 
+$(command_line_flag)';
