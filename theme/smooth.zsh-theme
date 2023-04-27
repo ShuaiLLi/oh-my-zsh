@@ -93,9 +93,9 @@ function update_command_status() {
     export COMMAND_RESULT=$COMMAND_RESULT
     if $COMMAND_RESULT;
     then
-        arrow="%{$fg_bold[red]%}❱%{$fg_bold[yellow]%}❱%{$fg_bold[green]%}❱";
+        arrow="🍀🍀🍀";
     else
-        arrow="%{$fg_bold[red]%}❱❱❱";
+        arrow="😓😓😓";
     fi
     COMMAND_STATUS="${arrow}${reset_font}${color_reset}";
 }
@@ -117,7 +117,7 @@ func calculate_command_execution_duration() {
     local duration=$(bc -l <<<"${time_end}-${COMMAND_TIME_BEIGIN}");
     # reset
     COMMAND_TIME_BEIGIN="-20200325"
-    local duration_info="[🔝⌛ ${duration}s]"
+    local duration_info="[🐳⏰ ${duration}s]"
     local duration_info_color="$fg_no_bold[cyan]";
     LAST_COMMAND_DURATION_INFO="${duration_info_color}${duration_info}${color_reset}"
 }
@@ -131,11 +131,9 @@ function terminfo_line_flag() {
     echo "%{$fg_bold[cyan]%}#%{$reset_color%}"
 }
 
-
 function command_line_flag() {
     echo "%{$fg_bold[red]%}$ %{$reset_color%}"
 }
-
 
 # Init command status
 update_command_status true;
@@ -162,5 +160,7 @@ TRAPALRM() {
 # Prompt
 PROMPT='
 $(terminfo_line_flag) \
-$(real_time)$(last_command_duration_info) $(user_info) $(current_path) $(git_status)$(command_status) 
+🔆🌈 $(real_time)$(last_command_duration_info) $(user_info) $(current_path) $(git_status)$(command_status)
 $(command_line_flag)';
+
+
